@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { 
   Truck, 
   Thermometer, 
@@ -15,10 +16,11 @@ interface FeatureCardProps {
   title: string
   description: string
   index: number
+  href?: string
 }
 
-function FeatureCard({ icon: Icon, title, description, index }: FeatureCardProps) {
-  return (
+function FeatureCard({ icon: Icon, title, description, index, href }: FeatureCardProps) {
+  const content = (
     <div 
       className="group relative glass rounded-xl p-6 border border-border/50 hover:border-primary/40 transition-all duration-500 hover:-translate-y-1"
       style={{ animationDelay: `${index * 100}ms` }}
@@ -49,6 +51,12 @@ function FeatureCard({ icon: Icon, title, description, index }: FeatureCardProps
       </div>
     </div>
   )
+
+  // Wrap in Link if href is provided
+  if (href) {
+    return <Link href={href}>{content}</Link>
+  }
+  return content
 }
 
 const features = [
@@ -56,31 +64,37 @@ const features = [
     icon: Truck,
     title: "Logistics Monitoring",
     description: "Real-time GPS tracking of medical shipments and vehicles with predictive route optimization and delivery time estimation.",
+    href: "/logistics",
   },
   {
     icon: Thermometer,
     title: "Container Monitoring",
     description: "IoT sensors continuously tracking temperature, humidity, and vibration to ensure product integrity throughout transit.",
+    href: "/container",
   },
   {
     icon: Snowflake,
     title: "Cooling System Monitoring",
     description: "Ensuring cold-chain compliance for vaccines and temperature-sensitive pharmaceuticals with automated alerts.",
+    href: "/cooling",
   },
   {
     icon: Shield,
     title: "Security System",
     description: "Detect unauthorized container access and tampering with instant notifications and full audit trail logging.",
+    href: "/security",
   },
   {
     icon: Bell,
     title: "Alert & Notification System",
     description: "Automated multi-channel alerts for abnormal conditions, delays, and compliance breaches to all stakeholders.",
+    href: "/alerts",
   },
   {
     icon: BarChart3,
     title: "Analytics Dashboard",
     description: "Comprehensive data visualization for supply chain performance, trends analysis, and regulatory reporting.",
+    href: "/analytics",
   },
 ]
 
@@ -115,6 +129,7 @@ export function FeaturesSection() {
               title={feature.title}
               description={feature.description}
               index={index}
+              href={feature.href}  // <-- clickable link
             />
           ))}
         </div>
